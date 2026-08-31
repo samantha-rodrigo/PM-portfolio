@@ -1,6 +1,7 @@
 export const SITE = {
   name: "Samantha Rodrigo",
   tagline: "Growth PM | Financial Inclusion | Emerging Markets",
+  url: "https://samantharodrigo.com",
   email: "samantha_rodrigo@berkeley.edu",
   linkedin: "https://linkedin.com/in/samantha-rodrigo",
   github: "https://github.com/samantha-rodrigo",

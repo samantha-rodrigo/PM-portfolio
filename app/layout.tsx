@@ -16,6 +16,7 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: `${SITE.name} — ${SITE.tagline}`,
   description:
     "Growth PM building financial products that unlock opportunity for underserved communities across emerging markets.",
@@ -24,6 +25,12 @@ export const metadata: Metadata = {
     description:
       "Growth PM building financial products that unlock opportunity for underserved communities across emerging markets.",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — ${SITE.tagline}`,
+    description:
+      "Growth PM building financial products that unlock opportunity for underserved communities across emerging markets.",
   },
 };
 
