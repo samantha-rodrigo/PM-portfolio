@@ -1,5 +1,35 @@
+// All the case study, project, and skills content for the site lives here,
+// separate from the page files that display it. To add a new case study,
+// add an entry to CASE_STUDIES below (the `slug` becomes its URL, e.g.
+// slug: "my-project" -> /work/my-project) and create a matching folder under
+// app/work/ with a page.tsx that renders <CaseStudyCard study={...} />,
+// the same way app/work/secure-credit-card/page.tsx does.
 import type { CaseStudy } from "@/components/CaseStudyCard";
 import type { Project } from "@/components/ProjectCard";
+
+// Core skills shown on the About page, grouped into three categories so the
+// list reads as organized groups instead of one long wall of tags.
+export const SKILLS: { category: string; items: string[] }[] = [
+  {
+    category: "Product & Strategy",
+    items: ["Product Strategy", "Product Development", "Innovation & Strategy", "User-Centric Design"],
+  },
+  {
+    category: "Growth & Data",
+    items: [
+      "Growth Product Management",
+      "Data-Driven Decision Making",
+      "Market Research & Competitive Analysis",
+      "AI-Native Tools",
+      "Metabase",
+      "Google Cloud Platform",
+    ],
+  },
+  {
+    category: "Leadership & Execution",
+    items: ["Cross-functional Team Leadership", "Stakeholder Alignment", "Execution", "Go-to-Market Strategy"],
+  },
+];
 
 export const CASE_STUDIES: (CaseStudy & { slug: string })[] = [
   {

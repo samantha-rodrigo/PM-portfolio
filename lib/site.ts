@@ -1,3 +1,7 @@
+// Site-wide constants: name, links, and contact info used across the app
+// (Header, Footer, About, Contact, and the page metadata in layout.tsx).
+// Keeping these in one place means updating an email or social link only
+// has to happen here, not in every file that uses it.
 export const SITE = {
   name: "Samantha Rodrigo",
   tagline: "Growth PM | Financial Inclusion | Emerging Markets",
@@ -8,6 +12,7 @@ export const SITE = {
   resumeUrl: "/resume/Samantha_Rodrigo_Resume.pdf",
 };
 
+// The main navigation links shown in the Header (desktop and mobile).
 export const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/work", label: "Work" },

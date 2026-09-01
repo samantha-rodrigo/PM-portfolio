@@ -1,3 +1,6 @@
+// Renders one full side project (problem / built / features / impact / link).
+// Used on project detail pages, e.g. app/projects/credit-score-demystifier/page.tsx.
+
 export type Project = {
   title: string;
   subtitle: string;
@@ -11,7 +14,7 @@ export type Project = {
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="rounded-lg border border-border bg-surface p-6 sm:p-10">
+    <article className="rounded-lg border border-border border-l-4 border-l-accent bg-surface p-6 shadow-xl shadow-black/40 sm:p-10">
       <h2 className="text-2xl sm:text-3xl">{project.title}</h2>
       <p className="mb-6 text-muted">{project.subtitle}</p>
 
@@ -37,7 +40,9 @@ export default function ProjectCard({ project }: { project: Project }) {
         </ul>
       </div>
 
-      <div className="mb-8">
+      {/* Same tinted "impact" panel treatment as CaseStudyCard, so the two
+          content types read as one consistent system. */}
+      <div className="mb-8 rounded-md bg-accent-soft p-5">
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-accent">Impact</h3>
         <ul className="space-y-2">
           {project.impact.map((line) => (

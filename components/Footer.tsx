@@ -1,3 +1,4 @@
+// Site-wide footer. Shown on every page, right after <main>, via app/layout.tsx.
 import SocialLinks from "./SocialLinks";
 
 export default function Footer() {

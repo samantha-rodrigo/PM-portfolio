@@ -1,3 +1,6 @@
+// Detail page for one case study. The content itself lives in
+// lib/content.ts — this file just finds the matching entry by its slug
+// and hands it to CaseStudyCard to render.
 import type { Metadata } from "next";
 import Link from "next/link";
 import CaseStudyCard from "@/components/CaseStudyCard";

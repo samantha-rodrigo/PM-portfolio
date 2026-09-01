@@ -1,3 +1,5 @@
+// Detail page for one project. Same pattern as the case study detail pages:
+// content lives in lib/content.ts, this file just looks up the right entry.
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";

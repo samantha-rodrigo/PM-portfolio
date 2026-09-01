@@ -1,29 +1,47 @@
+/* Global styles + design tokens for the whole site.
+   Any component can use these as Tailwind classes, e.g. bg-surface, text-accent. */
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --surface: #141414;
+  --background: #08080a;
+  --surface: #17161a;
+  --surface-hover: #1e1d22;
   --foreground: #f5f5f5;
   --muted: #a3a3a3;
   --accent: #c87137;
-  --border: #333333;
+  --accent-soft: #c8713722;
+  --border: #322f2b;
 }
 
+/* Makes the tokens above usable as Tailwind color classes,
+   e.g. `bg-surface`, `text-accent`, `border-border`. */
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-border: var(--border);
   --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), Helvetica, Arial, sans-serif;
 }
 
+/* Smooth scrolling for in-page anchor links (e.g. the "jump to" nav on About). */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  /* A very faint glow behind the top of the page so the background isn't
+     completely flat black. Purely decorative, has no effect on layout. */
+  background:
+    radial-gradient(ellipse 900px 500px at 50% -10%, var(--accent-soft), transparent),
+    var(--color-background);
+  background-attachment: fixed;
 }
 
 a {
@@ -40,4 +58,47 @@ h1, h2, h3, h4 {
 ::selection {
   background: var(--color-accent);
   color: #0a0a0a;
+}
+
+/* Reusable button styles, used by the CTAs on the home and about pages. */
+.btn-primary {
+  display: inline-block;
+  border-radius: 0.375rem;
+  background: var(--color-accent);
+  color: #14100c;
+  font-weight: 600;
+  padding: 0.85rem 1.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 24px -8px var(--accent-soft);
+}
+.btn-primary:hover {
+  background: #d98247;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px #c8713755;
+}
+
+.btn-secondary {
+  display: inline-block;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  font-weight: 500;
+  padding: 0.8rem 1.7rem;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* Card hover: a subtle lift + glow, used on clickable preview cards
+   (the case study / project cards on the Work and Projects list pages). */
+.card-interactive {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-interactive:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 16px 40px -16px var(--accent-soft);
 }

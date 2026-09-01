@@ -1,3 +1,6 @@
+// Renders one full case study (challenge / actions / impact / skills).
+// Used on the case study detail pages, e.g. app/work/secure-credit-card/page.tsx.
+
 export type CaseStudy = {
   title: string;
   challenge: string;
@@ -8,7 +11,9 @@ export type CaseStudy = {
 
 export default function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
-    <article className="rounded-lg border border-border bg-surface p-6 sm:p-10">
+    // border-l-4 gives the card a colored "spine" on the left so it doesn't
+    // look identical to a plain gray box; shadow-xl adds depth against the background.
+    <article className="rounded-lg border border-border border-l-4 border-l-accent bg-surface p-6 shadow-xl shadow-black/40 sm:p-10">
       <h2 className="mb-6 text-2xl sm:text-3xl">{study.title}</h2>
 
       <div className="mb-8">
@@ -28,7 +33,9 @@ export default function CaseStudyCard({ study }: { study: CaseStudy }) {
         </ul>
       </div>
 
-      <div className="mb-8">
+      {/* Impact is the strongest proof-point content, so it gets its own
+          tinted panel instead of blending into the rest of the card. */}
+      <div className="mb-8 rounded-md bg-accent-soft p-5">
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-accent">Impact</h3>
         <ul className="space-y-2">
           {study.impact.map((line) => (

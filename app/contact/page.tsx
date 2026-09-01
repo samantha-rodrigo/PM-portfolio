@@ -1,3 +1,5 @@
+// Contact page: no form (by design — see project notes), just direct,
+// clickable links to email / LinkedIn / GitHub.
 import type { Metadata } from "next";
 import { SITE } from "@/lib/site";
 
@@ -8,6 +10,13 @@ const INTERESTS = [
   "Emerging markets products",
   "Growth stage companies",
   "Building AI-powered products",
+];
+
+// Each contact method rendered as its own card below.
+const CONTACT_LINKS = [
+  { label: SITE.email, href: `mailto:${SITE.email}`, icon: "📧", external: false },
+  { label: "linkedin.com/in/samantha-rodrigo", href: SITE.linkedin, icon: "🔗", external: true },
+  { label: "github.com/samantha-rodrigo", href: SITE.github, icon: "💻", external: true },
 ];
 
 export default function ContactPage() {
@@ -27,16 +36,19 @@ export default function ContactPage() {
         ))}
       </ul>
 
-      <div className="mt-12 flex flex-col items-center gap-4 border-t border-border pt-10">
-        <a href={`mailto:${SITE.email}`} className="text-lg text-accent hover:underline">
-          📧 {SITE.email}
-        </a>
-        <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className="text-lg text-accent hover:underline">
-          🔗 linkedin.com/in/samantha-rodrigo
-        </a>
-        <a href={SITE.github} target="_blank" rel="noopener noreferrer" className="text-lg text-accent hover:underline">
-          💻 github.com/samantha-rodrigo
-        </a>
+      <div className="mt-12 flex flex-col gap-3 border-t border-border pt-10">
+        {CONTACT_LINKS.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            className="card-interactive flex items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-4 text-lg text-foreground hover:text-accent"
+          >
+            <span aria-hidden="true">{link.icon}</span>
+            {link.label}
+          </a>
+        ))}
       </div>
     </section>
   );

@@ -1,3 +1,6 @@
+// Small row of icon links (LinkedIn / GitHub / Email), used in the Header,
+// Footer, and About page. Each icon below is a tiny inline SVG so no extra
+// icon library or image files are needed.
 import { SITE } from "@/lib/site";
 
 function LinkedInIcon() {
@@ -41,7 +44,7 @@ export default function SocialLinks({ className = "" }: { className?: string }) 
           target={link.href.startsWith("mailto:") ? undefined : "_blank"}
           rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
           aria-label={link.label}
-          className="text-muted hover:text-accent transition-colors"
+          className="text-muted transition-all hover:scale-110 hover:text-accent"
         >
           {link.icon}
         </a>

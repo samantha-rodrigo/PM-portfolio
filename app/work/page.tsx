@@ -1,3 +1,6 @@
+// Overview page listing every case study as a clickable card.
+// The actual case study data comes from lib/content.ts — add a new case
+// study there and it will automatically show up here.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CASE_STUDIES } from "@/lib/content";
@@ -14,10 +17,12 @@ export default function WorkPage() {
 
       <div className="space-y-6">
         {CASE_STUDIES.map((study) => (
+          // card-interactive (defined in globals.css) adds the hover lift + glow.
+          // border-l-accent gives it the same "spine" treatment as the detail page.
           <Link
             key={study.slug}
             href={`/work/${study.slug}`}
-            className="group block rounded-lg border border-border bg-surface p-6 transition-colors hover:border-accent sm:p-10"
+            className="card-interactive group block rounded-lg border border-border border-l-4 border-l-accent bg-surface p-6 shadow-lg shadow-black/30 sm:p-10"
           >
             <h2 className="mb-3 text-2xl transition-colors group-hover:text-accent sm:text-3xl">{study.title}</h2>
             <p className="mb-6 text-muted">{study.challenge}</p>
@@ -31,6 +36,9 @@ export default function WorkPage() {
             <span className="mt-6 inline-block text-accent">Read full case study &rarr;</span>
           </Link>
         ))}
+
+        {/* Sets expectations instead of leaving a big empty page below a single card. */}
+        <p className="pt-4 text-center text-sm text-muted">More case studies coming soon.</p>
       </div>
     </section>
   );
