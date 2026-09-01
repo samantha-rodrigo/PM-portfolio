@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Avatar from "@/components/Avatar";
 import SocialLinks from "@/components/SocialLinks";
+import Reveal from "@/components/Reveal";
 import { SITE } from "@/lib/site";
 import { SKILLS } from "@/lib/content";
 
@@ -40,7 +41,10 @@ const JUMP_LINKS = [
 export default function AboutPage() {
   return (
     <section className="mx-auto max-w-[1000px] px-6 py-16 sm:py-24">
-      <div className="mb-8 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
+      {/* Above-the-fold intro: animates in immediately on load (animate-fade-up),
+          not on scroll — it's already visible, so a scroll-triggered Reveal
+          wouldn't add anything here. */}
+      <div className="animate-fade-up mb-8 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
         <Avatar />
         <div>
           <h1 className="text-3xl sm:text-4xl">About</h1>
@@ -53,7 +57,10 @@ export default function AboutPage() {
       {/* Jump-to nav: clicking one of these smooth-scrolls down to that
           section instead of jumping instantly, thanks to the global
           `scroll-behavior: smooth` rule in globals.css. */}
-      <nav className="mb-14 flex flex-wrap justify-center gap-2 sm:justify-start" aria-label="Jump to section">
+      <nav
+        className="animate-fade-up delay-1 mb-14 flex flex-wrap justify-center gap-2 sm:justify-start"
+        aria-label="Jump to section"
+      >
         {JUMP_LINKS.map((link) => (
           <a
             key={link.href}
@@ -65,72 +72,85 @@ export default function AboutPage() {
         ))}
       </nav>
 
-      {/* scroll-mt-24 keeps the sticky header from covering the heading
-          when a jump-nav link scrolls this section into view. */}
+      {/* From here down, everything uses Reveal (scroll-triggered fade-in)
+          instead of animate-fade-up, since these sections start below the
+          fold on most screens. */}
       <div id="background" className="scroll-mt-24">
-        <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">Background</h2>
-        <ul className="mb-14 space-y-4">
-          {BACKGROUND.map((item) => (
-            <li key={item} className="text-muted">
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Reveal>
+          <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">Background</h2>
+          <ul className="mb-14 space-y-4">
+            {BACKGROUND.map((item) => (
+              <li key={item} className="text-muted">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
 
       <div id="skills" className="scroll-mt-24">
-        <h2 className="mb-6 text-lg font-semibold uppercase tracking-wide text-accent">Skills</h2>
+        <Reveal>
+          <h2 className="mb-6 text-lg font-semibold uppercase tracking-wide text-accent">Skills</h2>
+        </Reveal>
         <div className="mb-14 grid gap-6 sm:grid-cols-3">
-          {SKILLS.map((group) => (
-            <div key={group.category} className="rounded-lg border border-border bg-surface p-5">
-              <h3 className="mb-3 text-sm font-semibold text-foreground">{group.category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full border border-accent/30 bg-accent-soft px-3 py-1 text-xs text-accent"
-                  >
-                    {skill}
-                  </span>
-                ))}
+          {SKILLS.map((group, index) => (
+            <Reveal key={group.category} delay={index * 100}>
+              <div className="rounded-lg border border-border bg-surface p-5">
+                <h3 className="mb-3 text-sm font-semibold text-foreground">{group.category}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-full border border-accent/30 bg-accent-soft px-3 py-1 text-xs text-accent"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
 
       <div className="grid gap-10 sm:grid-cols-2">
         <div id="what-i-do" className="scroll-mt-24">
-          <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">What I Do</h2>
-          <ul className="space-y-2">
-            {WHAT_I_DO.map((item) => (
-              <li key={item} className="flex gap-2 text-foreground">
-                <span className="text-accent">&bull;</span>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <Reveal>
+            <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">What I Do</h2>
+            <ul className="space-y-2">
+              {WHAT_I_DO.map((item) => (
+                <li key={item} className="flex gap-2 text-foreground">
+                  <span className="text-accent">&bull;</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
 
         <div id="interests" className="scroll-mt-24">
-          <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">Interests</h2>
-          <ul className="space-y-2">
-            {INTERESTS.map((item) => (
-              <li key={item} className="flex gap-2 text-muted">
-                <span className="text-accent">&bull;</span>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <Reveal delay={100}>
+            <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-accent">Interests</h2>
+            <ul className="space-y-2">
+              {INTERESTS.map((item) => (
+                <li key={item} className="flex gap-2 text-muted">
+                  <span className="text-accent">&bull;</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
       </div>
 
-      <div className="mt-14 flex flex-col items-center gap-6 border-t border-border pt-10 text-center">
-        <a href={SITE.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-          Download Resume
-        </a>
-        <SocialLinks />
-      </div>
+      <Reveal>
+        <div className="mt-14 flex flex-col items-center gap-6 border-t border-border pt-10 text-center">
+          <a href={SITE.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+            Download Resume
+          </a>
+          <SocialLinks />
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -102,3 +102,76 @@ h1, h2, h3, h4 {
   border-color: var(--color-accent);
   box-shadow: 0 16px 40px -16px var(--accent-soft);
 }
+
+/* Arrow that nudges sideways on hover, e.g. the "Read full case study →"
+   links. Put ONE of these classes (not both) on a <span> around just the
+   arrow character, inside a parent that has `group` (Tailwind) so
+   `group-hover` below fires when the whole card/link is hovered, not just
+   the arrow itself. Use .arrow-nudge for a "→" that should slide right,
+   .arrow-nudge-left for a "←" that should slide left. */
+.arrow-nudge,
+.arrow-nudge-left {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.group:hover .arrow-nudge {
+  transform: translateX(4px);
+}
+.group:hover .arrow-nudge-left {
+  transform: translateX(-4px);
+}
+
+/* --------------------------------------------------------------------
+   Motion: entrance + scroll-reveal animations.
+   Everything below is wrapped in this media query so that anyone with
+   "reduce motion" turned on in their OS settings gets a fully static
+   (but still functional) site — the elements just appear normally with
+   no animation, instead of being forced to sit through movement.
+   -------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Fades an element up into place. Used for above-the-fold content that
+     should animate in immediately on page load (e.g. the hero). */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  /* Small stagger delays so a group of elements animates in one after
+     another instead of all at once. Add alongside .animate-fade-up. */
+  .delay-1 { animation-delay: 0.08s; }
+  .delay-2 { animation-delay: 0.16s; }
+  .delay-3 { animation-delay: 0.24s; }
+  .delay-4 { animation-delay: 0.32s; }
+  .delay-5 { animation-delay: 0.4s; }
+
+  /* Starting state for anything the Reveal component (components/Reveal.tsx)
+     wraps: hidden until it scrolls into view, then transitions to visible
+     when Reveal adds the "is-visible" class via IntersectionObserver. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Very slow side-to-side drift on the hero's wave graphic, so the page
+     doesn't feel completely still. Subtle on purpose — low amplitude, slow. */
+  @keyframes wave-drift {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-2%); }
+  }
+  .animate-wave-drift {
+    animation: wave-drift 16s ease-in-out infinite;
+  }
+}

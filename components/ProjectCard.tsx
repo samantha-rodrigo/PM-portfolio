@@ -67,9 +67,9 @@ export default function ProjectCard({ project }: { project: Project }) {
           href={`https://${project.liveUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block text-accent hover:underline"
+          className="group inline-block text-accent hover:underline"
         >
-          Live at: {project.liveUrl} &rarr;
+          Live at: {project.liveUrl} <span className="arrow-nudge">&rarr;</span>
         </a>
       )}
     </article>

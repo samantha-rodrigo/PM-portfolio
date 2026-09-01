@@ -6,7 +6,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import SocialLinks from "./SocialLinks";
 
@@ -15,12 +15,28 @@ export default function Header() {
   const pathname = usePathname();
   // open/setOpen tracks whether the mobile dropdown menu is currently visible.
   const [open, setOpen] = useState(false);
+  // scrolled tracks whether the page has been scrolled down at all, so the
+  // header can go from mostly-transparent to a more solid backdrop —
+  // a small cue that the page is responding to you as you scroll.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll(); // set the correct state immediately (e.g. after a page reload mid-scroll)
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     // sticky + top-0 keeps the header pinned while scrolling.
     // bg-background/80 + backdrop-blur gives it a translucent "frosted glass" look
-    // over content scrolling underneath it.
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
+    // over content scrolling underneath it; it solidifies slightly (95%) once
+    // you've scrolled, so text under it stays readable.
+    <header
+      className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${
+        scrolled ? "border-border bg-background/95" : "border-border/60 bg-background/80"
+      }`}
+    >
       <div className="mx-auto flex max-w-[1000px] items-center justify-between px-6 py-4">
         <Link href="/" className="font-serif text-lg font-bold" onClick={() => setOpen(false)}>
           {SITE.name}
