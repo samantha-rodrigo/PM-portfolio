@@ -57,6 +57,12 @@ export const CASE_STUDIES: (CaseStudy & { slug: string })[] = [
       "~3,000 secured credit cards acquired per month",
       "Achieved 10% incremental lift in credit card acquisition (vs. current product)",
     ],
+    impactStats: [
+      { value: 55, prefix: "4 → ", label: "branches reached, 13.75x growth" },
+      { value: 19, suffix: "M", label: "pre-approved eligible clients" },
+      { value: 3000, prefix: "~", label: "secured credit cards acquired per month" },
+      { value: 10, prefix: "+", suffix: "%", label: "incremental lift in credit card acquisition vs. current product" },
+    ],
     skills: ["Product Strategy", "Stakeholder Alignment", "Execution", "Cross-functional Leadership", "Growth Focus"],
   },
 ];

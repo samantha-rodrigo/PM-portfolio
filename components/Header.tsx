@@ -45,7 +45,10 @@ export default function Header() {
         {/* Desktop nav: hidden below the md breakpoint, shown as a row above it. */}
         <nav className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => {
-            const active = pathname === link.href;
+            // NAV_LINKS point at homepage anchors (e.g. "/#work"), which never
+            // match `pathname` directly. Fall back to the matching standalone
+            // route so the dot still shows if someone lands on e.g. /work.
+            const active = pathname === link.href.replace(/^\/#/, "/");
             return (
               <Link
                 key={link.href}
@@ -83,7 +86,7 @@ export default function Header() {
         <div className="border-t border-border/60 px-6 pb-6 md:hidden">
           <nav className="flex flex-col gap-4 pt-4">
             {NAV_LINKS.map((link) => {
-              const active = pathname === link.href;
+              const active = pathname === link.href.replace(/^\/#/, "/");
               return (
                 <Link
                   key={link.href}

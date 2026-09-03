@@ -3,7 +3,7 @@
 // all pages, and where the default page title / description / social
 // preview text (metadata below) comes from.
 import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Source_Serif_4 } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/site";
@@ -18,6 +18,14 @@ const inter = Inter({
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
+  subsets: ["latin"],
+});
+
+// Used for the homepage's small uppercase labels and meta text
+// (eyebrows, stat captions, resume dates) — see components/home/*.
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  weight: ["400", "500"],
   subsets: ["latin"],
 });
 
@@ -49,7 +57,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${sourceSerif.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${sourceSerif.variable} ${ibmPlexMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
         <Header />
         {/* `children` is whichever page.tsx matches the current URL

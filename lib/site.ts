@@ -13,9 +13,12 @@ export const SITE = {
 };
 
 // The main navigation links shown in the Header (desktop and mobile).
+// These point at the homepage's own sections (it's a single scrolling page)
+// rather than the standalone /work, /projects, /about, /contact routes,
+// which still exist for direct links but aren't part of primary navigation.
 export const NAV_LINKS = [
-  { href: "/about", label: "About" },
-  { href: "/work", label: "Work" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#work", label: "Work" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ] as const;
