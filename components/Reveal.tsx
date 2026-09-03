@@ -15,10 +15,15 @@ export default function Reveal({
   children,
   className = "",
   delay = 0,
+  variant = "up",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  // "up" fades up (default, see .reveal in globals.css); "left" slides in
+  // from the left instead (see .reveal-left) — used for the homepage's
+  // About photo.
+  variant?: "up" | "left";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -42,10 +47,12 @@ export default function Reveal({
     return () => observer.disconnect();
   }, []);
 
+  const base = variant === "left" ? "reveal-left" : "reveal";
+
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`${base} ${visible ? "is-visible" : ""} ${className}`}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
     >
       {children}

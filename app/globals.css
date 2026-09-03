@@ -26,6 +26,7 @@
   --color-border: var(--border);
   --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SF Mono", monospace;
 }
 
 /* Smooth scrolling for in-page anchor links (e.g. the "jump to" nav on About). */
@@ -165,6 +166,19 @@ h1, h2, h3, h4 {
     transform: translateY(0);
   }
 
+  /* Sideways variant of .reveal (Reveal's `variant="left"`), used for the
+     About-page photo on the homepage, which slides in from the left instead
+     of fading up. */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-72px);
+    transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
   /* Very slow side-to-side drift on the hero's wave graphic, so the page
      doesn't feel completely still. Subtle on purpose — low amplitude, slow. */
   @keyframes wave-drift {
@@ -174,4 +188,17 @@ h1, h2, h3, h4 {
   .animate-wave-drift {
     animation: wave-drift 16s ease-in-out infinite;
   }
+
+  /* Homepage background waves (components/home/WaveBackground.tsx): three
+     duplicated-width paths drifting sideways at different speeds, plus a
+     slow vertical bob on the back two layers for depth. */
+  @keyframes home-wave-slow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes home-wave-mid { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @keyframes home-wave-fast { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes home-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  .animate-home-wave-slow { animation: home-wave-slow 26s linear infinite; }
+  .animate-home-wave-mid { animation: home-wave-mid 17s linear infinite; }
+  .animate-home-wave-fast { animation: home-wave-fast 11s linear infinite; }
+  .animate-home-bob { animation: home-bob 9s ease-in-out infinite; }
+  .animate-home-bob-reverse { animation: home-bob 7s ease-in-out infinite reverse; }
 }

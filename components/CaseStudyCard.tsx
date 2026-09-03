@@ -6,6 +6,9 @@ export type CaseStudy = {
   challenge: string;
   actions: { title: string; description: string }[];
   impact: string[];
+  // Optional structured version of `impact`, used by the homepage's
+  // animated count-up stat cards (see components/home/CountUpStat.tsx).
+  impactStats?: { value: number; prefix?: string; suffix?: string; label: string }[];
   skills: string[];
 };
 
