@@ -129,11 +129,13 @@ export const AI_PROJECTS: AIProject[] = [
 
 // Resume snapshot timeline on the homepage's "Resume snapshot" section.
 // `logoDomain` feeds Google's favicon service as a placeholder
-// (https://www.google.com/s2/favicons?domain=...) — swap in official logo
-// files under public/logos/ when available.
+// (https://www.google.com/s2/favicons?domain=...). `logo`, when set,
+// overrides that with a real logo file under public/logos/ instead —
+// swap the rest in as they become available.
 export type TimelineEntry = {
   org: string;
   logoDomain: string;
+  logo?: string;
   logoAlt: string;
   role: string;
   dates: string;
@@ -173,6 +175,7 @@ export const TIMELINE: TimelineEntry[] = [
   {
     org: "McKinsey & Company",
     logoDomain: "mckinsey.com",
+    logo: "/logos/mckinsey.png",
     logoAlt: "McKinsey & Company logo",
     role: "Business Analyst / Location Analyst",
     dates: "2021–2025",

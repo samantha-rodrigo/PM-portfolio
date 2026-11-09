@@ -30,13 +30,13 @@ export default function ResumeSection() {
                   }`}
                 />
                 <div className="relative flex h-[116px] w-[116px] items-center justify-center overflow-hidden rounded-[24px] border-2 border-ink bg-paper transition-transform duration-[400ms] [transition-timing-function:cubic-bezier(.34,1.56,.64,1)] hover:-translate-y-1.5 hover:-rotate-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- external favicon service, not an optimizable local/remote asset worth next/image config for */}
+                  {/* eslint-disable-next-line @next/next/no-img-element -- entry.logo is a locally-hosted file but still just a handful of logos, not worth next/image's remote-pattern config for the external favicon-service fallback */}
                   <img
-                    src={`https://www.google.com/s2/favicons?domain=${entry.logoDomain}&sz=128`}
+                    src={entry.logo ?? `https://www.google.com/s2/favicons?domain=${entry.logoDomain}&sz=128`}
                     alt={entry.logoAlt}
-                    width={64}
-                    height={64}
-                    className="block h-16 w-16 object-contain"
+                    width={entry.logo ? 88 : 64}
+                    height={entry.logo ? 88 : 64}
+                    className={`block object-contain ${entry.logo ? "h-auto w-[88px]" : "h-16 w-16"}`}
                   />
                 </div>
                 <div className="text-balance pt-7 text-[22px] font-bold leading-[1.15] tracking-[-0.02em]">{entry.org}</div>
