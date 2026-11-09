@@ -26,7 +26,22 @@
   --color-border: var(--border);
   --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), Helvetica, Arial, sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SF Mono", monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  /* "Yellow paper, black ink" palette — the Header (site-wide) and the
+     homepage (components/home/*) only. The rest of the site (standalone
+     /work, /projects pages) keeps the tokens above untouched. */
+  --color-sun: #fff48d;
+  --color-ink: #0e0e0c;
+  --color-cream: #faf7ea;
+  --color-paper: #fffdf3;
+  --color-stripe: #fbee7a;
+  --color-stone: #8f8f80;
+  --color-olive: #3a3a30;
+  --color-muted-label: #5c5c50;
+  --color-light-muted: #c9c9b8;
+  --color-live-green: #46c98b;
+  --font-display: var(--font-bricolage), Helvetica, Arial, sans-serif;
 }
 
 /* Smooth scrolling for in-page anchor links (e.g. the "jump to" nav on About). */
@@ -45,20 +60,42 @@ body {
   background-attachment: fixed;
 }
 
-a {
-  color: inherit;
-  transition: color 0.2s ease;
+/* @layer base (rather than plain unlayered CSS) so this participates in
+   Tailwind's cascade layers correctly: unlayered CSS always wins over
+   Tailwind's utilities layer regardless of specificity, which would
+   otherwise silently defeat any `text-*` utility applied directly to an
+   <a> (e.g. SocialLinks' `text-muted`, or the v2 homepage's `text-sun`
+   buttons) in favor of this inherited color. */
+@layer base {
+  a {
+    color: inherit;
+    transition: color 0.2s ease;
+  }
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+/* @layer base for the same reason as the `a` rule above — otherwise this
+   unlayered rule always beats the v2 homepage's own font-display/
+   font-weight/tracking-* utilities on its h1/h2 elements. */
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
 }
 
 ::selection {
   background: var(--color-accent);
   color: #0a0a0a;
+}
+
+/* v2 homepage + Header: ink/yellow selection instead of the site's default
+   accent-colored one. Scoped via ancestor rather than overriding the
+   sitewide ::selection above, which the old /work and /projects pages
+   still rely on. */
+.selection-ink ::selection {
+  background: var(--color-ink);
+  color: var(--color-sun);
 }
 
 /* Reusable button styles, used by the CTAs on the home and about pages. */
@@ -179,26 +216,10 @@ h1, h2, h3, h4 {
     transform: translateX(0);
   }
 
-  /* Very slow side-to-side drift on the hero's wave graphic, so the page
-     doesn't feel completely still. Subtle on purpose — low amplitude, slow. */
-  @keyframes wave-drift {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-2%); }
-  }
-  .animate-wave-drift {
-    animation: wave-drift 16s ease-in-out infinite;
-  }
-
-  /* Homepage background waves (components/home/WaveBackground.tsx): three
-     duplicated-width paths drifting sideways at different speeds, plus a
-     slow vertical bob on the back two layers for depth. */
-  @keyframes home-wave-slow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes home-wave-mid { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-  @keyframes home-wave-fast { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes home-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-  .animate-home-wave-slow { animation: home-wave-slow 26s linear infinite; }
-  .animate-home-wave-mid { animation: home-wave-mid 17s linear infinite; }
-  .animate-home-wave-fast { animation: home-wave-fast 11s linear infinite; }
-  .animate-home-bob { animation: home-bob 9s ease-in-out infinite; }
-  .animate-home-bob-reverse { animation: home-bob 7s ease-in-out infinite reverse; }
+  /* v2 homepage: the hero's looping skills marquee, and the pulsing "live"
+     status dots (facts strip, resume timeline, contact eyebrow). */
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .animate-marquee { animation: marquee 38s linear infinite; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 #46c98b88; } 50% { box-shadow: 0 0 0 6px #46c98b00; } }
+  .animate-pulse-dot { animation: pulse 2s ease-in-out infinite; }
 }

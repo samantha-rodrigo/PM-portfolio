@@ -18,7 +18,7 @@ export const SITE = {
 // which still exist for direct links but aren't part of primary navigation.
 export const NAV_LINKS = [
   { href: "/#work", label: "Work" },
-  { href: "/#projects", label: "Projects" },
+  { href: "/#projects", label: "AI Projects" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ] as const;

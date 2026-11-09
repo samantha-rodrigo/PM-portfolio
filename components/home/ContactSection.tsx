@@ -1,59 +1,69 @@
-// Homepage "Contact" section: full-bleed band with its own gradient
-// background, closing out the single-page scroll.
-import Reveal from "@/components/Reveal";
+// Homepage "Contact" section: closes out the single-page scroll on an
+// ink band, with a pulsing-dot eyebrow and contact rows that shift right
+// on hover.
 import { SITE } from "@/lib/site";
+
+const CONTACT_ROWS = [
+  { label: "EMAIL", value: SITE.email, href: `mailto:${SITE.email}`, cursorLabel: "Email", external: false },
+  {
+    label: "LINKEDIN",
+    value: "/in/samantha-rodrigo ↗",
+    href: SITE.linkedin,
+    cursorLabel: "LinkedIn",
+    external: true,
+  },
+  { label: "GITHUB", value: "/samantha-rodrigo ↗", href: SITE.github, cursorLabel: "GitHub", external: true },
+];
 
 export default function ContactSection() {
   return (
-    <section
-      id="contact"
-      className="relative z-[1] scroll-mt-[90px] border-t border-border bg-[linear-gradient(180deg,transparent,#100e10_55%)]"
-    >
-      <div className="mx-auto max-w-[1120px] px-6 pb-[88px] pt-24">
-        <Reveal className="flex flex-wrap items-end gap-x-16 gap-y-12">
-          <div className="min-w-0 flex-1 basis-[420px]">
-            <h2 className="mb-5 text-pretty font-serif text-[clamp(32px,3.6vw,46px)] font-bold leading-[1.1] tracking-[-0.025em]">
+    <section id="contact" className="scroll-mt-[70px] bg-ink text-cream">
+      <div className="mx-auto max-w-[1240px] px-6 pb-16 pt-[120px] sm:px-10">
+        <div data-reveal="0" className="flex flex-wrap items-end gap-x-[72px] gap-y-12">
+          <div className="min-w-0 flex-[1_1_520px]">
+            <div className="flex items-center gap-2.5 pb-7 font-mono text-xs uppercase tracking-[0.15em] text-sun">
+              <span className="animate-pulse-dot h-2 w-2 rounded-full bg-live-green" />
+              Contact
+            </div>
+            <h2 className="mb-6 text-balance font-display text-[clamp(40px,5.4vw,72px)] font-bold leading-[0.92] tracking-[-0.04em] text-sun">
               Looking for a PM internship for summer 2027.
             </h2>
-            <p className="max-w-[500px] text-pretty text-base leading-[1.75] text-muted">
+            <p className="max-w-[520px] text-pretty text-[17px] font-medium leading-[1.6] text-light-muted">
               Credit, payments, or AI-native financial tools. Happy to talk about emerging markets, growth loops, or
               where a rollout usually breaks.
             </p>
           </div>
 
-          <div className="flex flex-none basis-[360px] flex-col font-mono text-xs">
-            <a href={`mailto:${SITE.email}`} className="flex justify-between border-t border-border py-[15px]">
-              <span className="text-muted">EMAIL</span>
-              <span>{SITE.email}</span>
-            </a>
+          <div className="flex flex-[0_1_400px] flex-col font-mono text-[13px]">
+            {CONTACT_ROWS.map((row) => (
+              <a
+                key={row.label}
+                href={row.href}
+                target={row.external ? "_blank" : undefined}
+                rel={row.external ? "noreferrer" : undefined}
+                data-cursor="label"
+                data-cursor-label={row.cursorLabel}
+                className="flex justify-between gap-4 border-t-[1.5px] border-olive py-[18px] transition-[color,padding] duration-[300ms] [transition-timing-function:cubic-bezier(.16,1,.3,1)] hover:pl-2 hover:text-sun"
+              >
+                <span className="tracking-[0.12em] text-stone">{row.label}</span>
+                <span>{row.value}</span>
+              </a>
+            ))}
             <a
-              href={SITE.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="flex justify-between border-t border-border py-[15px]"
+              href={SITE.resumeUrl}
+              data-cursor="label"
+              data-cursor-label="Download"
+              className="flex items-center justify-between gap-4 border-y-[1.5px] border-olive py-[18px]"
             >
-              <span className="text-muted">LINKEDIN</span>
-              <span>/in/samantha-rodrigo &#8599;</span>
-            </a>
-            <a
-              href={SITE.github}
-              target="_blank"
-              rel="noreferrer"
-              className="flex justify-between border-t border-border py-[15px]"
-            >
-              <span className="text-muted">GITHUB</span>
-              <span>/samantha-rodrigo &#8599;</span>
-            </a>
-            <a href={SITE.resumeUrl} className="flex justify-between border-y border-border py-[15px]">
-              <span className="text-muted">RESUME</span>
-              <span className="text-accent">Download PDF</span>
+              <span className="tracking-[0.12em] text-stone">RESUME</span>
+              <span className="rounded-full bg-sun px-4 py-2 font-semibold text-ink">Download PDF →</span>
             </a>
           </div>
-        </Reveal>
+        </div>
 
-        <div className="flex justify-between pt-[72px] font-mono text-[11px] text-muted">
+        <div className="flex flex-wrap justify-between gap-3 pt-24 font-mono text-[11px] uppercase tracking-[0.12em] text-stone">
           <span>Samantha Rodrigo · Growth PM · Financial Inclusion · Emerging Markets</span>
-          <span>Lima &rarr; Berkeley</span>
+          <span>Lima → Berkeley</span>
         </div>
       </div>
     </section>

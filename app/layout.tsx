@@ -3,14 +3,18 @@
 // all pages, and where the default page title / description / social
 // preview text (metadata below) comes from.
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Inter, Source_Serif_4 } from "next/font/google";
+import { Bricolage_Grotesque, Geist_Mono, Inter, Source_Serif_4 } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Cursor from "@/components/Cursor";
+import ProgressBar from "@/components/ProgressBar";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
 // next/font/google downloads and self-hosts these fonts at build time, so
 // the browser doesn't have to fetch them from Google separately.
+// Inter and Source Serif 4 are still used by the standalone /work and
+// /projects pages, which keep their original look.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -21,11 +25,18 @@ const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
 });
 
-// Used for the homepage's small uppercase labels and meta text
-// (eyebrows, stat captions, resume dates) — see components/home/*.
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  weight: ["400", "500"],
+// Display/body font for the Header (site-wide) and the homepage
+// (components/home/*) — see --font-display in globals.css.
+const bricolageGrotesque = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  axes: ["opsz"],
+});
+
+// Mono font for the Header's and homepage's small uppercase labels and meta
+// text (eyebrows, stat captions, resume dates) — see --font-mono below.
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -59,9 +70,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sourceSerif.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${sourceSerif.variable} ${bricolageGrotesque.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <ProgressBar />
+        <Cursor />
         <Header />
         {/* `children` is whichever page.tsx matches the current URL
             (app/page.tsx for "/", app/about/page.tsx for "/about", etc). */}

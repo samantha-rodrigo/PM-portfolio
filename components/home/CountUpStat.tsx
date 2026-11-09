@@ -1,10 +1,10 @@
 "use client";
 
 // One impact stat that counts up from 0 to its final value the first time
-// it scrolls into view (McKinsey-style), then holds. Renders the final
-// value up front (so it's correct without JS, or under reduced motion) and
-// only overwrites it imperatively for the animation, rather than driving
-// the count through React state on every frame.
+// it scrolls into view, then holds. Renders the final value up front (so
+// it's correct without JS, or under reduced motion) and only overwrites it
+// imperatively for the animation, rather than driving the count through
+// React state on every frame.
 import { useEffect, useRef } from "react";
 
 function format(value: number, prefix: string, suffix: string) {
@@ -65,10 +65,15 @@ export default function CountUpStat({
 
   return (
     <div ref={wrapRef}>
-      <div ref={numberRef} className="font-serif text-[38px] font-bold leading-none tracking-[-0.02em] text-accent">
+      <div
+        ref={numberRef}
+        className="font-display text-[clamp(44px,4.4vw,60px)] font-extrabold leading-none tracking-[-0.04em] text-sun"
+      >
         {finalText}
       </div>
-      <div className="pt-2 text-[13px] leading-[1.6] text-muted">{label}</div>
+      <div className="pt-3.5 font-mono text-[11px] uppercase leading-[1.6] tracking-[0.12em] text-light-muted">
+        {label}
+      </div>
     </div>
   );
 }

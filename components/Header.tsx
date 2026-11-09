@@ -1,71 +1,54 @@
 "use client";
 
-// Site-wide sticky navigation bar. Shown on every page via app/layout.tsx.
-// Has two layouts: a horizontal nav on desktop (md and up), and a
+// Site-wide sticky nav: the "sr." logo + wordmark, Work / AI Projects /
+// About links, and an ink "Get in touch" pill — all in the v2 yellow/ink
+// system. Shown on every page via app/layout.tsx, including the standalone
+// /work and /projects pages (which otherwise keep their original look).
+// Has two layouts: a horizontal row on desktop (md and up), and a
 // hamburger-triggered dropdown menu on mobile.
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { NAV_LINKS, SITE } from "@/lib/site";
-import SocialLinks from "./SocialLinks";
+import { useState } from "react";
+import { NAV_LINKS } from "@/lib/site";
+import Logo from "./Logo";
+
+const PRIMARY_LINKS = NAV_LINKS.slice(0, -1);
+const CTA_LINK = NAV_LINKS[NAV_LINKS.length - 1];
 
 export default function Header() {
-  // pathname tells us which page we're on, so we can highlight the matching nav link.
-  const pathname = usePathname();
   // open/setOpen tracks whether the mobile dropdown menu is currently visible.
   const [open, setOpen] = useState(false);
-  // scrolled tracks whether the page has been scrolled down at all, so the
-  // header can go from mostly-transparent to a more solid backdrop —
-  // a small cue that the page is responding to you as you scroll.
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll(); // set the correct state immediately (e.g. after a page reload mid-scroll)
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    // sticky + top-0 keeps the header pinned while scrolling.
-    // bg-background/80 + backdrop-blur gives it a translucent "frosted glass" look
-    // over content scrolling underneath it; it solidifies slightly (95%) once
-    // you've scrolled, so text under it stays readable.
-    <header
-      className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${
-        scrolled ? "border-border bg-background/95" : "border-border/60 bg-background/80"
-      }`}
-    >
-      <div className="mx-auto flex max-w-[1000px] items-center justify-between px-6 py-4">
-        <Link href="/" className="font-serif text-lg font-bold" onClick={() => setOpen(false)}>
-          {SITE.name}
+    // sticky + top-0 keeps the header pinned while scrolling, above the
+    // ProgressBar's z-60 but below the Cursor's very high z-index.
+    <header className="selection-ink sticky top-0 z-50 border-b-[1.5px] border-ink bg-sun/80 font-display text-ink backdrop-blur-[14px]">
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-4 sm:px-10">
+        <Link
+          href="/#top"
+          data-cursor="link"
+          aria-label="Samantha Rodrigo, home"
+          onClick={() => setOpen(false)}
+          className="transition-transform duration-[400ms] [transition-timing-function:cubic-bezier(.34,1.56,.64,1)] hover:scale-[1.04]"
+        >
+          <Logo />
         </Link>
 
         {/* Desktop nav: hidden below the md breakpoint, shown as a row above it. */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => {
-            // NAV_LINKS point at homepage anchors (e.g. "/#work"), which never
-            // match `pathname` directly. Fall back to the matching standalone
-            // route so the dot still shows if someone lands on e.g. /work.
-            const active = pathname === link.href.replace(/^\/#/, "/");
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative text-sm transition-colors hover:text-accent ${
-                  active ? "text-accent" : "text-foreground"
-                }`}
-              >
-                {link.label}
-                {/* Small dot under the current page's link, so it's clear at a glance where you are. */}
-                {active && (
-                  <span className="absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent" />
-                )}
-              </Link>
-            );
-          })}
-          <SocialLinks />
+        <nav className="hidden items-center gap-[clamp(14px,2.4vw,28px)] whitespace-nowrap text-[15px] font-semibold md:flex">
+          {PRIMARY_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} data-cursor="link" className="transition-colors hover:text-olive">
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href={CTA_LINK.href}
+            data-cursor="label"
+            data-cursor-label="Let's talk"
+            className="rounded-full bg-ink px-5 py-[11px] font-bold text-sun transition-transform duration-[400ms] [transition-timing-function:cubic-bezier(.34,1.56,.64,1)] hover:scale-[1.06]"
+          >
+            Get in touch →
+          </Link>
         </nav>
 
         {/* Mobile hamburger button: three bars that animate into an X when open. */}
@@ -75,32 +58,28 @@ export default function Header() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          <span className={`h-0.5 w-6 bg-foreground transition-transform ${open ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`h-0.5 w-6 bg-foreground transition-opacity ${open ? "opacity-0" : ""}`} />
-          <span className={`h-0.5 w-6 bg-foreground transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+          <span className={`h-0.5 w-6 bg-ink transition-transform ${open ? "translate-y-2 rotate-45" : ""}`} />
+          <span className={`h-0.5 w-6 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
+          <span className={`h-0.5 w-6 bg-ink transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`} />
         </button>
       </div>
 
       {/* Mobile dropdown: only rendered while `open` is true. */}
       {open && (
-        <div className="border-t border-border/60 px-6 pb-6 md:hidden">
-          <nav className="flex flex-col gap-4 pt-4">
-            {NAV_LINKS.map((link) => {
-              const active = pathname === link.href.replace(/^\/#/, "/");
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className={`text-sm transition-colors hover:text-accent ${
-                    active ? "text-accent" : "text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            <SocialLinks className="pt-2" />
+        <div className="border-t-[1.5px] border-ink px-6 pb-6 md:hidden">
+          <nav className="flex flex-col gap-4 pt-4 text-[15px] font-semibold">
+            {PRIMARY_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href={CTA_LINK.href}
+              onClick={() => setOpen(false)}
+              className="w-fit rounded-full bg-ink px-5 py-[11px] font-bold text-sun"
+            >
+              Get in touch →
+            </Link>
           </nav>
         </div>
       )}
